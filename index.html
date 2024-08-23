@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Testimonial and Video Slider</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            padding: 50px;
+            background-color: #fff;
+            max-width: 1200px;
+            margin: auto;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .testimonial-section {
+            flex: 1;
+            padding: 20px;
+            min-width: 300px;
+        }
+
+        .testimonial-section h2 {
+            font-size: 24px;
+            color: #1e3e67;
+        }
+
+        .testimonial-section h3 {
+            font-size: 20px;
+            color: #1e3e67;
+            margin-top: 10px;
+        }
+
+        .testimonial-section p {
+            font-size: 16px;
+            line-height: 1.5;
+            margin-top: 10px;
+        }
+
+        .read-more {
+            margin-top: 20px;
+            display: inline-block;
+            font-size: 16px;
+            color: #1e3e67;
+            text-decoration: none;
+            font-weight: bold;
+            position: relative;
+            padding-right: 20px;
+        }
+
+        .read-more::after {
+            content: '→';
+            position: absolute;
+            right: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .read-more:hover::after {
+            transform: translateX(5px);
+        }
+
+        .video-section {
+            flex: 1;
+            position: relative;
+            min-width: 300px;
+            padding: 20px;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            background-color: #000;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .slider-buttons {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .slider-button {
+            background-color: #000;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .slider-button:hover {
+            background-color: #1e3e67;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .testimonial-section, .video-section {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+
+            .slider-buttons {
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Testimonial Section -->
+    <div class="testimonial-section" id="testimonial-section">
+        <h2>What our <strong>customers say</strong></h2>
+        <h3 id="testimonial-title">Tigre</h3>
+        <p id="testimonial-text">"Our challenge is to provide information to Tigre group units across 10 countries. To address this challenge, we needed to understand the market in each country and map reliable sources and locations in each geography. That's why we partnered with EMIS. EMIS provides local news, sector reports, macroeconomic data, and more, allowing us to monitor each country's local economy and our markets of interest."</p>
+        <a href="#" class="read-more" id="read-more-link">Read more</a>
+    </div>
+
+    <!-- Video Section -->
+    <div class="video-section">
+        <div class="video-container">
+            <iframe id="video-frame" src="https://www.youtube.com/embed/ScMzIvxBSi4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="slider-buttons">
+            <button class="slider-button" id="prevButton">&#9664;</button>
+            <button class="slider-button" id="nextButton">&#9654;</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const slides = [
+        {
+            title: "Tigre",
+            text: `"Our challenge is to provide information to Tigre group units across 10 countries. To address this challenge, we needed to understand the market in each country and map reliable sources and locations in each geography. That's why we partnered with EMIS. EMIS provides local news, sector reports, macroeconomic data, and more, allowing us to monitor each country's local economy and our markets of interest."`,
+            video: "https://www.youtube.com/embed/ScMzIvxBSi4",
+            link: "#"
+        },
+        {
+            title: "Another Client",
+            text: `"EMIS provided us with the data necessary to make informed decisions that have led to our company's growth in a very competitive market. We are now able to monitor our competition and adjust our strategies accordingly."`,
+            video: "https://www.youtube.com/embed/tgbNymZ7vqY",
+            link: "#"
+        },
+        {
+            title: "Yet Another Client",
+            text: `"With the insights provided by EMIS, we have been able to identify new opportunities and expand into markets we never considered before. The platform is an invaluable resource for our business."`,
+            video: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+            link: "#"
+        }
+    ];
+
+    let currentSlideIndex = 0;
+
+    function updateSlide() {
+        const title = document.getElementById('testimonial-title');
+        const text = document.getElementById('testimonial-text');
+        const video = document.getElementById('video-frame');
+        const link = document.getElementById('read-more-link');
+
+        title.textContent = slides[currentSlideIndex].title;
+        text.textContent = slides[currentSlideIndex].text;
+        video.src = slides[currentSlideIndex].video;
+        link.href = slides[currentSlideIndex].link;
+    }
+
+    document.getElementById('prevButton').addEventListener('click', () => {
+        currentSlideIndex = (currentSlideIndex - 1 + slides.length) % slides.length;
+        updateSlide();
+    });
+
+    document.getElementById('nextButton').addEventListener('click', () => {
+        currentSlideIndex = (currentSlideIndex + 1) % slides.length;
+        updateSlide();
+    });
+
+    updateSlide();  // Initialize the first slide
+</script>
+
+</body>
+</html>
